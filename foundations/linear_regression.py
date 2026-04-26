@@ -1,13 +1,17 @@
 import numpy as np
 from numpy.typing import NDArray
 
-
 class Solution:
 
-    def softmax(self, z: NDArray[np.float64]) -> NDArray[np.float64]:
-        # z is a 1D NumPy array of logits
-        # Hint: subtract max(z) for numerical stability before computing exp
-        # return np.round(your_answer, 4)
-        shifted = z- np.max(z)
-        exps = np.exp(shifted)
-        return np.round( exps/ np.sum(exps), 4)
+    def get_model_prediction(self, X: NDArray[np.float64], weights: NDArray[np.float64]) -> NDArray[np.float64]:
+        # X is (n, m), weights is (m,) -> return (n,) predictions
+        # Round to 5 decimal places
+        # Y is X.W
+        Y = np.matmul(X, weights)
+        return np.round(Y, 5)
+
+    def get_error(self, model_prediction: NDArray[np.float64], ground_truth: NDArray[np.float64]) -> float:
+        # Compute mean squared error between predictions and ground truth
+        # Round to 5 decimal places
+        mse = np.mean (np.square(model_prediction - ground_truth))
+        return np.round(mse, 5)
